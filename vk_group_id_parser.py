@@ -17,7 +17,7 @@ try:
     driver.get(url)
     time.sleep(2)
     # i кол-во прокруток
-    for i in range(8):
+    for i in range(6):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(2)
 
@@ -36,5 +36,23 @@ try:
             output.write(f"{line}\n")
         output.close()
 
+    url = "https://regvk.com/id/"
+    driver.get(url)
+    time.sleep(2)
+    ids = []
+    for link in groups_links:
+        input_field = driver.find_element(by=By.ID, value="enter")
+        input_field.clear()
+        input_field.send_keys(link)
+        submit_btn = driver.find_element(by=By.XPATH, value="//*[@id='check']/div[2]/p/button")
+        submit_btn.click()
+        time.sleep(2)
+        result = driver.find_element(by = By.XPATH, value=f'/html/body/div/div/div[1]/div/div[2]/table/tbody/tr[2]/td').text
+        print(result)
+        ids.append(-int(result.split()[-1]))
+        print(ids)    
+    with open("ids.txt", "w") as output:
+            output.write(str(ids))
+            output.close()
 except Exception as e:
     print(e)
