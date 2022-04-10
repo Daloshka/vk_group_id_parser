@@ -41,16 +41,19 @@ try:
     time.sleep(2)
     ids = []
     for link in groups_links:
-        input_field = driver.find_element(by=By.ID, value="enter")
-        input_field.clear()
-        input_field.send_keys(link)
-        submit_btn = driver.find_element(by=By.XPATH, value="//*[@id='check']/div[2]/p/button")
-        submit_btn.click()
-        time.sleep(2)
-        result = driver.find_element(by = By.XPATH, value=f'/html/body/div/div/div[1]/div/div[2]/table/tbody/tr[2]/td').text
-        print(result)
-        ids.append(-int(result.split()[-1]))
-        print(ids)    
+        try:
+            input_field = driver.find_element(by=By.ID, value="enter")
+            input_field.clear()
+            input_field.send_keys(link)
+            submit_btn = driver.find_element(by=By.XPATH, value="//*[@id='check']/div[2]/p/button")
+            submit_btn.click()
+            time.sleep(2)
+            result = driver.find_element(by = By.XPATH, value=f'/html/body/div/div/div[1]/div/div[2]/table/tbody/tr[2]/td').text
+            print(result)
+            ids.append(-int(result.split()[-1]))
+            print(ids)    
+        except:
+            pass
     with open("ids.txt", "w") as output:
             output.write(str(ids))
             output.close()
